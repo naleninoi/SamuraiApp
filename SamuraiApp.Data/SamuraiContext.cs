@@ -10,6 +10,6 @@ public class SamuraiContext: DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=samurai_ch2;Username=postgres;Password=sa");
+        optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=samurai_ch3;Username=postgres;Password=sa");
     }
 }
