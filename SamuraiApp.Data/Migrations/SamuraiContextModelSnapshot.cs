@@ -21,6 +21,38 @@ namespace SamuraiApp.Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("BattleSamurai", b =>
+                {
+                    b.Property<int>("BattlesBattleId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("SamuraisId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("BattlesBattleId", "SamuraisId");
+
+                    b.HasIndex("SamuraisId");
+
+                    b.ToTable("BattleSamurai");
+                });
+
+            modelBuilder.Entity("SamuraiApp.Domain.Battle", b =>
+                {
+                    b.Property<int>("BattleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("BattleId"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("BattleId");
+
+                    b.ToTable("Battles");
+                });
+
             modelBuilder.Entity("SamuraiApp.Domain.Quote", b =>
                 {
                     b.Property<int>("Id")
@@ -58,6 +90,21 @@ namespace SamuraiApp.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Samurais");
+                });
+
+            modelBuilder.Entity("BattleSamurai", b =>
+                {
+                    b.HasOne("SamuraiApp.Domain.Battle", null)
+                        .WithMany()
+                        .HasForeignKey("BattlesBattleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SamuraiApp.Domain.Samurai", null)
+                        .WithMany()
+                        .HasForeignKey("SamuraisId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SamuraiApp.Domain.Quote", b =>
