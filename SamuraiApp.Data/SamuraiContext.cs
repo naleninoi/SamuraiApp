@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using SamuraiApp.Domain;
 
 namespace SamuraiApp.Data;
@@ -11,7 +12,10 @@ public class SamuraiContext: DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=samurai_ch4;Username=postgres;Password=sa");
+        optionsBuilder
+            .UseNpgsql("Host=localhost;Port=5432;Database=samurai_app;Username=postgres;Password=sa")
+            .LogTo(Console.WriteLine,  new []{ DbLoggerCategory.Database.Command.Name }, LogLevel.Information)
+            .EnableSensitiveDataLogging();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

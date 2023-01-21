@@ -13,4 +13,10 @@ public class Samurai
     public List<Battle> Battles { get; set; } = new List<Battle>();
     
     public Horse Horse { get; set; }
+
+    public override string ToString()
+    {
+        var horseName = Horse != null ? Horse.Name : "no horse";
+        return $"Samurai name: {Name}{Environment.NewLine}Horse: {horseName}{Environment.NewLine}";
+    }
 }
