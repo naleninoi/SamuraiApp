@@ -15,13 +15,41 @@ namespace SamuraiApp.UI
             // AddSamurais(new List<string> {"Toyama", "Kawasaki", "Hirowato"});
             // GetSamurais("After Add:");
             // GetSamuraisByName("Toyama");
-            var samurai = GetSamuraiByName("Tolstoi");
-            if (samurai != null)
+            // AddBattles();
+            // AddNewSamuraiToExistingBattle();
+            RemoveSamuraiFromBattle();
+        }
+
+        private static void RemoveSamuraiFromBattle()
+        {
+            var battle = _context.Battles
+                .Include(b => b.Samurais.Where(s => s.Id == 5))
+                .SingleOrDefault(b => b.Id == 1);
+            var samurai = battle.Samurais[0];
+            battle.Samurais.Remove(samurai);
+            _context.SaveChanges();
+        }
+        
+        private static void AddNewSamuraiToExistingBattle()
+        {
+            var battle = _context.Battles.FirstOrDefault();
+            battle.Samurais.Add(new Samurai {Name = "Maeukemi Tenkai"});
+            _context.SaveChanges();
+        }
+
+        private static void AddBattles()
+        {
+            var firstBattle = new Battle()
             {
-                UpdateSamuraiName(samurai, "Toyama");
-            }
-            Console.Write("Press any key...");
-            Console.ReadKey();
+                Name = "Monte Carlo"
+            };
+            var secondBattle = new Battle()
+            {
+                Name = "Monte Negro"
+            };
+            _context.Battles.Add(firstBattle);
+            _context.Battles.Add(secondBattle);
+            _context.SaveChanges();
         }
 
         private static void AddSamuraisByName(List<string> names)
